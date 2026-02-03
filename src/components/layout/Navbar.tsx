@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, Heart } from 'lucide-react';
-import { NAV_ITEMS } from '@/lib/constants';
+import { NAV_ITEMS, UTILITY_NAV_ITEMS } from '@/lib/constants';
 import { Button } from '@/components/ui/button';
-import ACWLogo from '@/assets/ACW-logo.png';
+import NewLogo from '@/assets/new-logo.png';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -18,107 +18,128 @@ const Navbar = () => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
     };
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const handleLogoClick = (e: React.MouseEvent) => {
+    if (location.pathname === '/') {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
+
   const isHome = location.pathname === '/';
-  
-  // Navbar background logic
-  const showWhiteBackground = isScrolled || !isHome;
-  
-  const navClass = `fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
-    showWhiteBackground 
-      ? 'bg-white shadow-md py-0' 
-      : 'bg-transparent py-0'
-  }`;
+
+  // Transparent at top, visible when scrolled
+  const navClass = isScrolled
+    ? `fixed top-0 left-0 w-full z-50 transition-all duration-300 glass-light shadow-soft-lg`
+    : `fixed top-0 left-0 w-full z-50 transition-all duration-300 bg-transparent`;
 
   const linkClass = (path: string) => {
     const isActive = location.pathname === path;
-    const baseClass = "text-[15px] font-medium transition-colors duration-200 px-4 py-2.5";
-    
-    if (isActive) {
-      return `${baseClass} text-teal-600 font-semibold relative after:absolute after:bottom-0 after:left-3 after:right-3 after:h-0.5 after:bg-teal-600`;
+    const baseClass = "text-[14px] font-medium transition-smooth px-4 py-2.5 rounded-lg";
+
+    if (isScrolled) {
+      // Scrolled state - dark text
+      if (isActive) {
+        return `${baseClass} text-teal-700 font-semibold bg-teal-50`;
+      }
+      return `${baseClass} text-gray-700 hover:text-teal-700 hover:bg-teal-50/50`;
+    } else {
+      // Top of page - white text
+      if (isActive) {
+        return `${baseClass} text-white font-semibold bg-white/20`;
+      }
+      return `${baseClass} text-white hover:text-white hover:bg-white/10`;
     }
-    
-    if (showWhiteBackground) {
-      return `${baseClass} text-gray-800 hover:text-teal-600`;
-    }
-    
-    return `${baseClass} text-white hover:text-white/90`;
   };
 
-  const menuIconColor = showWhiteBackground ? 'text-gray-800' : 'text-white';
+  const utilityLinkClass = (path: string) => {
+    const isActive = location.pathname === path;
+    return `text-xs font-medium transition-smooth px-3 py-1.5 rounded hover:bg-teal-50 ${isActive ? 'text-teal-600 font-semibold' : 'text-gray-600 hover:text-teal-600'
+      }`;
+  };
 
   return (
     <nav className={navClass}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-18">
-          {/* Logo with text */}
-          <Link to="/" className="flex items-center space-x-3 md:space-x-4">
-            <img 
-              src={ACWLogo} 
-              alt="ACW logo" 
-              className="h-14 w-auto object-contain transition-all duration-300 hover:scale-105" 
-            />
-            <div className="hidden sm:block">
-              <div className={`text-[28px] font-bold leading-none tracking-tight transition-colors duration-300 ${
-                showWhiteBackground ? 'text-teal-800' : 'text-white'
-              }`}>
-                ACW
-              </div>
-              <div className={`text-[11px] font-medium leading-tight tracking-wide uppercase transition-colors duration-300 ${
-                showWhiteBackground ? 'text-gray-600' : 'text-white/90'
-              }`}>
-                <span className="block">ALLIANCE FOR COMMUNITY</span>
-                <span className="block">WELLNESS</span>
-              </div>
-            </div>
-          </Link>
-
-          {/* Desktop Navigation Links */}
-          <div className="hidden lg:flex items-center space-x-2">
-            {NAV_ITEMS.map(item => (
-              <Link 
-                key={item.path} 
-                to={item.path} 
-                className={linkClass(item.path)}
+      {/* Top Utility Bar - Desktop Only - Hidden when at top */}
+      <div className={`hidden lg:block border-b border-gray-100 bg-gray-50 transition-all duration-300 ${isScrolled ? 'opacity-100' : 'opacity-0 h-0 overflow-hidden'}`}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-end h-10 space-x-3">
+            {UTILITY_NAV_ITEMS.map(item => (
+              <Link
+                key={item.path}
+                to={item.path}
+                className={utilityLinkClass(item.path)}
               >
                 {item.label}
               </Link>
             ))}
           </div>
+        </div>
+      </div>
 
-          {/* Desktop Donate Button */}
-          <div className="hidden lg:flex items-center">
+      {/* Main Navigation Bar - HUGE LOGO */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 transition-all duration-300">
+        <div className={`flex items-center justify-between transition-all duration-300 ${isScrolled ? 'h-20' : 'h-24'}`}>
+          {/* Logo - Structurally in the same place, but allowed to overflow */}
+          <Link
+            to="/"
+            onClick={handleLogoClick}
+            className="group relative flex items-center flex-shrink-0 focus-ring rounded-lg z-50 transition-all duration-300"
+            style={{ width: '220px', height: '100%' }}
+          >
+            <img
+              src={NewLogo}
+              alt="Alliance for Community Wellness"
+              className={`absolute left-0 top-1/2 -translate-y-1/2 w-auto object-contain transition-all duration-500 transform group-hover:scale-105 ${isScrolled ? 'drop-shadow-sm' : 'drop-shadow-2xl'
+                }`}
+              style={{
+                height: isScrolled ? '75px' : '150px',
+                maxWidth: 'none',
+              }}
+            />
+          </Link>
+
+          {/* Desktop Navigation Links & Action Button */}
+          <div className="hidden lg:flex items-center space-x-1">
+            <div className="flex items-center space-x-1 mr-6">
+              {NAV_ITEMS.map(item => (
+                <Link
+                  key={item.path}
+                  to={item.path}
+                  className={linkClass(item.path)}
+                >
+                  {item.label}
+                </Link>
+              ))}
+            </div>
+
             <Link to="/donate">
-              <Button 
-                className={`
-                  px-6 py-2.5 rounded-full font-semibold transition-all duration-300
-                  flex items-center space-x-2
-                  ${showWhiteBackground 
-                    ? 'bg-gradient-to-r from-teal-600 to-emerald-600 hover:from-teal-700 hover:to-emerald-700 text-white shadow-md hover:shadow-lg' 
-                    : 'bg-white/95 hover:bg-white text-teal-800 shadow-md hover:shadow-lg'
-                  }
-                `}
+              <Button
+                size="lg"
+                className={`transition-all duration-500 font-bold px-8 shadow-soft hover:shadow-soft-xl hover-lift border-0 ${isScrolled
+                  ? 'bg-gradient-to-r from-teal-600 via-teal-500 to-amber-500 text-white'
+                  : 'bg-white text-teal-900 hover:bg-teal-50 shadow-soft-xl'
+                  }`}
               >
-                <Heart className="h-4.5 w-4.5" fill="currentColor" />
-                <span className="text-[15px]">Donate Now</span>
+                <Heart className={`h-4 w-4 mr-2 ${isScrolled ? 'text-white' : 'text-amber-500'}`} fill="currentColor" />
+                Donate Now
               </Button>
             </Link>
           </div>
 
           {/* Mobile menu button and donate icon */}
           <div className="flex items-center lg:hidden space-x-4">
-            <Link to="/donate" className="lg:hidden">
-              <Heart className={`h-6 w-6 ${showWhiteBackground ? 'text-rose-500' : 'text-white'}`} />
+            <Link to="/donate" className="lg:hidden focus-ring rounded-full">
+              <Heart className={`h-6 w-6 transition-smooth hover:scale-110 ${isScrolled ? 'text-rose-500' : 'text-white'}`} />
             </Link>
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className={`
-                inline-flex items-center justify-center p-2.5 rounded-md focus:outline-none 
-                ${showWhiteBackground ? 'text-gray-800 hover:bg-gray-100' : 'text-white hover:bg-white/10'}
-              `}
+              className={`inline-flex items-center justify-center p-2.5 rounded-md focus-ring transition-smooth ${isScrolled ? 'text-gray-800 hover:bg-gray-100' : 'text-white hover:bg-white/10'
+                }`}
+              aria-label="Toggle menu"
             >
               <span className="sr-only">Open main menu</span>
               {isOpen ? (
@@ -133,22 +154,13 @@ const Navbar = () => {
 
       {/* Mobile Navigation Menu */}
       <div
-        className={`lg:hidden absolute top-full left-0 w-full bg-white shadow-xl transition-all duration-300 ease-in-out transform ${
-          isOpen
-            ? 'opacity-100 translate-y-0'
-            : 'opacity-0 -translate-y-4 pointer-events-none'
-        }`}
+        className={`lg:hidden absolute top-full left-0 w-full bg-white shadow-xl transition-all duration-300 ease-in-out transform ${isOpen
+          ? 'opacity-100 translate-y-0'
+          : 'opacity-0 -translate-y-4 pointer-events-none'
+          }`}
       >
         <div className="px-4 pt-2 pb-6 space-y-1">
-          {/* Mobile version of logo text for context */}
-          <div className="px-4 py-3 mb-2 border-b border-gray-100">
-            <div className="text-2xl font-bold text-teal-800">ACW</div>
-            <div className="text-xs text-gray-600 font-medium uppercase">
-              <span className="block">ALLIANCE FOR COMMUNITY</span>
-              <span className="block">WELLNESS</span>
-            </div>
-          </div>
-          
+          {/* Main Navigation Items */}
           {NAV_ITEMS.map(item => (
             <Link
               key={item.path}
@@ -165,10 +177,32 @@ const Navbar = () => {
               {item.label}
             </Link>
           ))}
-          
+
+          {/* Divider */}
+          <div className="border-t border-gray-200 my-4"></div>
+
+          {/* Utility Navigation Items */}
+          {UTILITY_NAV_ITEMS.map(item => (
+            <Link
+              key={item.path}
+              to={item.path}
+              className={`
+                block px-5 py-2.5 rounded-lg text-sm font-medium transition-colors
+                ${location.pathname === item.path
+                  ? 'text-teal-600 bg-teal-50'
+                  : 'text-gray-600 hover:text-teal-600 hover:bg-gray-50'
+                }
+              `}
+              onClick={() => setIsOpen(false)}
+            >
+              {item.label}
+            </Link>
+          ))}
+
+          {/* Donate Button */}
           <div className="pt-6 px-4">
             <Link to="/donate" onClick={() => setIsOpen(false)}>
-              <Button className="w-full justify-center bg-gradient-to-r from-teal-600 to-emerald-600 hover:from-teal-700 hover:to-emerald-700 text-white py-3.5 rounded-lg shadow-lg text-[15px]">
+              <Button className="w-full justify-center bg-gradient-to-r from-rose-500 to-pink-600 hover:from-rose-600 hover:to-pink-700 text-white py-3.5 rounded-lg shadow-lg text-[15px]">
                 <Heart className="mr-3 h-4.5 w-4.5" fill="currentColor" />
                 Donate Now
               </Button>

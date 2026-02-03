@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&family=Raleway:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@400;500;600&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -44,13 +44,32 @@
     --teal-700: 175 84% 27%;
     --teal-800: 176 69% 22%;
     --teal-900: 176 61% 19%;
-    
+
     --amber-100: 48 96% 89%;
     --amber-400: 43 96% 56%;
     --amber-500: 39 96% 49%;
     --amber-600: 32 95% 44%;
 
     --slate-900: 222 47% 11%;
+
+    /* Wellness accent colors */
+    --sage-50: 120 60% 97%;
+    --sage-100: 120 50% 90%;
+    --sage-500: 120 40% 70%;
+    --sage-600: 120 35% 60%;
+
+    --pink-50: 350 100% 97%;
+    --pink-100: 350 100% 90%;
+    --pink-500: 350 100% 85%;
+
+    --cream-50: 40 40% 98%;
+    --cream-100: 40 30% 96%;
+    --cream-200: 40 25% 94%;
+
+    /* Glassmorphism */
+    --glass-white: 0 0% 100%;
+    --glass-opacity: 0.1;
+    --glass-blur: 10px;
   }
 
   .dark {
@@ -99,22 +118,122 @@
 }
 
 @layer utilities {
+
+  /* Typography */
   .font-heading {
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Lora', 'Montserrat', serif;
   }
 
   .font-sans {
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Raleway', 'Open Sans', sans-serif;
   }
 
+  /* Glassmorphism */
+  .glass {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  .glass-light {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+  }
+
+  .glass-dark {
+    background: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  /* Soft UI Shadows - 4 elevation levels */
+  .shadow-soft-sm {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.06);
+  }
+
+  .shadow-soft {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06), 0 2px 8px rgba(0, 0, 0, 0.08);
+  }
+
+  .shadow-soft-lg {
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08), 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  .shadow-soft-xl {
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.1), 0 8px 24px rgba(0, 0, 0, 0.12);
+  }
+
+  /* Smooth Transitions */
+  .transition-smooth {
+    transition: all 200ms ease-in-out;
+  }
+
+  .transition-smooth-slow {
+    transition: all 300ms ease-in-out;
+  }
+
+  /* Hover Effects */
+  .hover-lift {
+    transition: transform 200ms ease-in-out, box-shadow 200ms ease-in-out;
+  }
+
+  .hover-lift:hover {
+    transform: translateY(-2px);
+  }
+
+  .hover-scale {
+    transition: transform 200ms ease-in-out;
+  }
+
+  .hover-scale:hover {
+    transform: scale(1.02);
+  }
+
+  /* Focus Rings for Accessibility */
+  .focus-ring {
+    @apply focus:outline-none focus:ring-4 focus:ring-teal-600/30 focus:ring-offset-2;
+  }
+
+  .focus-ring-amber {
+    @apply focus:outline-none focus:ring-4 focus:ring-amber-500/30 focus:ring-offset-2;
+  }
+
+  /* Animations */
   @keyframes fade-in-up {
     from {
       opacity: 0;
       transform: translateY(20px);
     }
+
     to {
       opacity: 1;
       transform: translateY(0);
+    }
+  }
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes slide-in-right {
+    from {
+      opacity: 0;
+      transform: translateX(20px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateX(0);
     }
   }
 
@@ -122,14 +241,29 @@
     0% {
       transform: translate(0px, 0px) scale(1);
     }
+
     33% {
       transform: translate(30px, -50px) scale(1.1);
     }
+
     66% {
       transform: translate(-20px, 20px) scale(0.9);
     }
+
     100% {
       transform: translate(0px, 0px) scale(1);
+    }
+  }
+
+  @keyframes pulse-soft {
+
+    0%,
+    100% {
+      opacity: 1;
+    }
+
+    50% {
+      opacity: 0.8;
     }
   }
 
@@ -137,14 +271,39 @@
     animation: fade-in-up 0.6s ease-out forwards;
   }
 
+  .animate-fade-in {
+    animation: fade-in 0.4s ease-out forwards;
+  }
+
+  .animate-slide-in-right {
+    animation: slide-in-right 0.5s ease-out forwards;
+  }
+
   .animate-blob {
     animation: blob 7s infinite;
+  }
+
+  .animate-pulse-soft {
+    animation: pulse-soft 2s ease-in-out infinite;
+  }
+
+  .animation-delay-100 {
+    animation-delay: 100ms;
+  }
+
+  .animation-delay-200 {
+    animation-delay: 200ms;
+  }
+
+  .animation-delay-300 {
+    animation-delay: 300ms;
   }
 
   .animation-delay-2000 {
     animation-delay: 2s;
   }
 
+  /* Text Utilities */
   .line-clamp-2 {
     display: -webkit-box;
     -webkit-line-clamp: 2;
@@ -157,5 +316,17 @@
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
+  }
+
+  /* Reduced Motion Support */
+  @media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
   }
 }

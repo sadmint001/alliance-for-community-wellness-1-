@@ -16,6 +16,7 @@ import GetInvolved from "./pages/GetInvolved";
 import Donate from "./pages/Donate";
 import Contact from "./pages/Contact";
 import DonateSuccess from "./pages/DonateSuccess";
+import Careers from "./pages/Careers";
 import NotFound from "./pages/NotFound";
 import AdminLogin from "./pages/admin/AdminLogin";
 import AdminDashboard from "./pages/admin/AdminDashboard";
@@ -49,6 +50,7 @@ const PublicLayout = () => {
             <Route path="/donate" element={<Donate />} />
             <Route path="/donate/success" element={<DonateSuccess />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/careers" element={<Careers />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </main>

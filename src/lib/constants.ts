@@ -32,6 +32,7 @@ export const CONTACT_INFO = {
   location: "Hurlingham, Nairobi, Kenya"
 };
 
+// NOTE: Bank details kept for backend/admin use only - DO NOT display on public pages
 export const BANK_DETAILS = {
   mpesa: {
     paybill: "600100",
@@ -91,31 +92,37 @@ export const PROJECTS: Project[] = [
   }
 ];
 
+// NOTE: Bank details kept for backend/admin use only - DO NOT display on public pages
 export const FOUNDERS: Founder[] = [
   {
     name: "Horace Nundu",
-    role: "Co-Founder & Director",
+    role: "Executive Director",
     bio: "Horace is a dedicated community leader with over a decade of experience in public health and community development. His passion lies in creating sustainable health systems for marginalized populations. He has spearheaded numerous initiatives focusing on maternal health and disability inclusion across Kenya.",
     quote: "Health is the foundation upon which we build our dreams. Inclusion is the mortar that holds our community together.",
     image: ""
   },
   {
     name: "James Ateng",
-    role: "Co-Founder",
+    role: "Director",
     bio: "A passionate advocate for social justice and elderly care, bringing years of expertise in non-profit management and community mobilization. They are driven by a vision of a society where every senior citizen lives with dignity.",
     quote: "We are only as strong as how we treat our most vulnerable.",
     image: ""
   }
 ];
 
+// Main navigation items (displayed in primary nav bar)
 export const NAV_ITEMS: NavItem[] = [
-  { label: "Home", path: "/" },
-  { label: "About Us", path: "/about" },
-  { label: "Our Founders", path: "/founders" },
   { label: "Our Work", path: "/programs" },
+  { label: "About Us", path: "/about" },
   { label: "Projects", path: "/projects" },
   { label: "Get Involved", path: "/get-involved" },
-  { label: "Contact", path: "/contact" },
+];
+
+// Utility navigation items (displayed in top header bar)
+export const UTILITY_NAV_ITEMS: NavItem[] = [
+  { label: "Contact Us", path: "/contact" },
+  { label: "Careers", path: "/careers" },
+  { label: "Team", path: "/founders" }, // Note: still routes to /founders for now
 ];
 
 export const PILLARS = [
@@ -125,7 +132,7 @@ export const PILLARS = [
     icon: Heart,
     description: "Empowering families with a focus on maternal and child health, nutrition, and digital health access.",
     color: "bg-teal-50 text-teal-600",
-    longDescription: "ACW educates expectant mothers on nutrition, prenatal care, safe childbirth practices, and postnatal care. We provide guidance on proper dietary habits, the importance of regular check-ups, and managing pregnancy complications."
+    longDescription: "Alliance educates expectant mothers on nutrition, prenatal care, safe childbirth practices, and postnatal care. We provide guidance on proper dietary habits, the importance of regular check-ups, and managing pregnancy complications."
   },
   {
     id: "ageism",
@@ -133,7 +140,7 @@ export const PILLARS = [
     icon: Users,
     description: "Fostering social connections, mental well-being, and dignity for our senior citizens through community centers.",
     color: "bg-orange-50 text-orange-600",
-    longDescription: "ACW works to raise awareness about ageism, advocating for a society where the elderly are respected, valued, and given opportunities to contribute meaningfully to the community."
+    longDescription: "Alliance works to raise awareness about ageism, advocating for a society where the elderly are respected, valued, and given opportunities to contribute meaningfully to the community."
   },
   {
     id: "disability",

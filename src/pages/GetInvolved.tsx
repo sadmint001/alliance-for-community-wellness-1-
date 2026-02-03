@@ -169,7 +169,7 @@ const GetInvolved = () => {
                     <p className="text-xs font-bold text-green-800 uppercase tracking-wider mb-1">Paybill Number</p>
                     <div className="flex items-center justify-between">
                       <span className="text-3xl font-mono font-bold text-gray-900">{BANK_DETAILS.mpesa.paybill}</span>
-                      <button onClick={() => copyToClipboard(BANK_DETAILS.mpesa.paybill)} className="text-green-600 hover:text-green-800"><Copy size={20}/></button>
+                      <button onClick={() => copyToClipboard(BANK_DETAILS.mpesa.paybill)} className="text-green-600 hover:text-green-800"><Copy size={20} /></button>
                     </div>
                   </div>
 
@@ -182,7 +182,7 @@ const GetInvolved = () => {
                 </div>
               </div>
 
-              {/* Bank Transfer */}
+              {/* Bank Transfer - Contact Us */}
               <div className="bg-white rounded-2xl shadow-lg border border-blue-100 overflow-hidden relative">
                 <div className="h-2 bg-blue-600 w-full"></div>
                 <div className="p-8">
@@ -194,28 +194,25 @@ const GetInvolved = () => {
                     <CreditCard className="h-10 w-10 text-blue-600" />
                   </div>
 
-                  <div className="space-y-4">
-                    <div>
-                      <p className="text-xs font-bold text-gray-400 uppercase">Bank Name</p>
-                      <p className="font-bold text-gray-900">{BANK_DETAILS.bank.name}</p>
-                    </div>
-                    <div>
-                      <p className="text-xs font-bold text-gray-400 uppercase">Branch</p>
-                      <p className="text-gray-900">{BANK_DETAILS.bank.branch} (Code: {BANK_DETAILS.bank.code})</p>
-                    </div>
-
-                    <div className="pt-2">
-                      {BANK_DETAILS.bank.accounts.map((acc, i) => (
-                        <div key={i} className="bg-gray-50 p-3 rounded-lg mb-2 flex justify-between items-center">
-                          <div>
-                            <span className="font-bold text-blue-800 mr-2">{acc.currency}</span>
-                            <span className="font-mono text-gray-800">{acc.number}</span>
-                          </div>
-                          <button onClick={() => copyToClipboard(acc.number)} className="text-gray-400 hover:text-blue-600"><Copy size={16}/></button>
-                        </div>
-                      ))}
+                  <div className="bg-blue-50 rounded-xl p-6 mb-6">
+                    <p className="text-gray-700 mb-4">
+                      For bank transfer details, please contact us directly. We'll provide you with secure account information.
+                    </p>
+                    <div className="space-y-2 text-sm">
+                      <p className="flex items-center text-gray-600">
+                        <span className="font-semibold mr-2">Email:</span> info@a-cw.org
+                      </p>
+                      <p className="flex items-center text-gray-600">
+                        <span className="font-semibold mr-2">Phone:</span> 0718271543
+                      </p>
                     </div>
                   </div>
+
+                  <Link to="/contact">
+                    <Button variant="outline" className="w-full">
+                      Contact Us for Bank Details
+                    </Button>
+                  </Link>
                 </div>
               </div>
             </div>
@@ -248,8 +245,8 @@ const GetInvolved = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">First Name</label>
-                  <input 
-                    type="text" 
+                  <input
+                    type="text"
                     required
                     maxLength={50}
                     value={volunteerForm.firstName}
@@ -260,8 +257,8 @@ const GetInvolved = () => {
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">Last Name</label>
-                  <input 
-                    type="text" 
+                  <input
+                    type="text"
                     required
                     maxLength={50}
                     value={volunteerForm.lastName}
@@ -273,8 +270,8 @@ const GetInvolved = () => {
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
-                <input 
-                  type="email" 
+                <input
+                  type="email"
                   required
                   maxLength={100}
                   value={volunteerForm.email}
@@ -285,7 +282,7 @@ const GetInvolved = () => {
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Area of Interest</label>
-                <select 
+                <select
                   value={volunteerForm.areaOfInterest}
                   onChange={(e) => setVolunteerForm(prev => ({ ...prev, areaOfInterest: e.target.value }))}
                   className="w-full px-4 py-3 bg-gray-50 border-0 rounded-lg focus:ring-2 focus:ring-amber-500"
@@ -298,7 +295,7 @@ const GetInvolved = () => {
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Why do you want to volunteer?</label>
-                <textarea 
+                <textarea
                   rows={4}
                   maxLength={1000}
                   value={volunteerForm.motivation}

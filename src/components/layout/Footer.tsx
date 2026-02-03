@@ -1,4 +1,4 @@
-import ACWLogo from '@/assets/ACW-logo.png';
+import NewLogo from '@/assets/new-logo.png';
 import { Link } from 'react-router-dom';
 import { Mail, Phone, MapPin, Facebook, Twitter, Instagram, Heart } from 'lucide-react';
 import { CONTACT_INFO } from '@/lib/constants';
@@ -9,56 +9,49 @@ const Footer = () => {
     <footer className="bg-slate-900 text-white pt-16 pb-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
-          
+
           {/* Brand Column */}
           <div className="flex flex-col items-center md:items-start">
             <div className="flex flex-col items-center md:items-start space-y-4 mb-6">
-              <div className="flex items-center space-x-3">
-                <img 
-                  src={ACWLogo} 
-                  alt="ACW logo" 
-                  className="h-14 w-auto object-contain" 
+              <div className="flex items-center">
+                <img
+                  src={NewLogo}
+                  alt="Alliance logo"
+                  className="h-24 w-auto object-contain"
                 />
-                <div>
-                  <div className="text-2xl font-bold text-white leading-tight">ACW</div>
-                  <div className="text-xs text-gray-300 uppercase leading-tight tracking-wide">
-                    <div>ALLIANCE FOR COMMUNITY</div>
-                    <div>WELLNESS</div>
-                  </div>
-                </div>
               </div>
             </div>
-            
+
             <p className="text-gray-300 mb-6 leading-relaxed text-center md:text-left text-sm">
               Empowering communities through collaboration, cultivating a culture of inclusivity, resilience, and wellness.
             </p>
-            
+
             <div className="flex space-x-4 mb-6">
-              <a 
-                href="#" 
-                className="bg-gray-800 hover:bg-teal-600 text-gray-300 hover:text-white p-2 rounded-full transition-all duration-300"
+              <a
+                href="#"
+                className="bg-gray-800 hover:bg-teal-600 text-gray-300 hover:text-white p-2 rounded-full transition-smooth hover-scale focus-ring"
                 aria-label="Facebook"
               >
                 <Facebook size={18} />
               </a>
-              <a 
-                href="#" 
-                className="bg-gray-800 hover:bg-teal-600 text-gray-300 hover:text-white p-2 rounded-full transition-all duration-300"
+              <a
+                href="#"
+                className="bg-gray-800 hover:bg-teal-600 text-gray-300 hover:text-white p-2 rounded-full transition-smooth hover-scale focus-ring"
                 aria-label="Twitter"
               >
                 <Twitter size={18} />
               </a>
-              <a 
-                href="#" 
-                className="bg-gray-800 hover:bg-teal-600 text-gray-300 hover:text-white p-2 rounded-full transition-all duration-300"
+              <a
+                href="#"
+                className="bg-gray-800 hover:bg-teal-600 text-gray-300 hover:text-white p-2 rounded-full transition-smooth hover-scale focus-ring"
                 aria-label="Instagram"
               >
                 <Instagram size={18} />
               </a>
             </div>
-            
+
             <Link to="/donate">
-              <Button className="bg-gradient-to-r from-teal-600 to-emerald-600 hover:from-teal-700 hover:to-emerald-700 text-white px-6 py-2.5 text-sm">
+              <Button className="bg-gradient-to-r from-teal-600 to-emerald-600 hover:from-teal-700 hover:to-emerald-700 text-white px-6 py-2.5 text-sm shadow-soft hover:shadow-soft-lg hover-lift transition-smooth">
                 <Heart className="h-4 w-4 mr-2" fill="currentColor" />
                 Donate Now
               </Button>
@@ -69,24 +62,24 @@ const Footer = () => {
           <div>
             <h4 className="text-lg font-bold mb-6 pb-2 border-b border-gray-800">Quick Links</h4>
             <ul className="space-y-3">
-              <li><Link to="/about" className="text-gray-300 hover:text-teal-400 transition-colors duration-200 flex items-center group">
-                <span className="w-1.5 h-1.5 rounded-full bg-teal-600 mr-3 opacity-0 group-hover:opacity-100 transition-opacity"></span>
+              <li><Link to="/about" className="text-gray-300 hover:text-teal-400 transition-smooth flex items-center group focus-ring rounded px-2 py-1 -mx-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-teal-600 mr-3 opacity-0 group-hover:opacity-100 transition-smooth"></span>
                 About Us
               </Link></li>
-              <li><Link to="/programs" className="text-gray-300 hover:text-teal-400 transition-colors duration-200 flex items-center group">
-                <span className="w-1.5 h-1.5 rounded-full bg-teal-600 mr-3 opacity-0 group-hover:opacity-100 transition-opacity"></span>
+              <li><Link to="/programs" className="text-gray-300 hover:text-teal-400 transition-smooth flex items-center group focus-ring rounded px-2 py-1 -mx-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-teal-600 mr-3 opacity-0 group-hover:opacity-100 transition-smooth"></span>
                 Our Work
               </Link></li>
-              <li><Link to="/projects" className="text-gray-300 hover:text-teal-400 transition-colors duration-200 flex items-center group">
-                <span className="w-1.5 h-1.5 rounded-full bg-teal-600 mr-3 opacity-0 group-hover:opacity-100 transition-opacity"></span>
+              <li><Link to="/projects" className="text-gray-300 hover:text-teal-400 transition-smooth flex items-center group focus-ring rounded px-2 py-1 -mx-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-teal-600 mr-3 opacity-0 group-hover:opacity-100 transition-smooth"></span>
                 Projects
               </Link></li>
-              <li><Link to="/get-involved" className="text-gray-300 hover:text-teal-400 transition-colors duration-200 flex items-center group">
-                <span className="w-1.5 h-1.5 rounded-full bg-teal-600 mr-3 opacity-0 group-hover:opacity-100 transition-opacity"></span>
+              <li><Link to="/get-involved" className="text-gray-300 hover:text-teal-400 transition-smooth flex items-center group focus-ring rounded px-2 py-1 -mx-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-teal-600 mr-3 opacity-0 group-hover:opacity-100 transition-smooth"></span>
                 Get Involved
               </Link></li>
-              <li><Link to="/contact" className="text-gray-300 hover:text-teal-400 transition-colors duration-200 flex items-center group">
-                <span className="w-1.5 h-1.5 rounded-full bg-teal-600 mr-3 opacity-0 group-hover:opacity-100 transition-opacity"></span>
+              <li><Link to="/contact" className="text-gray-300 hover:text-teal-400 transition-smooth flex items-center group focus-ring rounded px-2 py-1 -mx-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-teal-600 mr-3 opacity-0 group-hover:opacity-100 transition-smooth"></span>
                 Contact
               </Link></li>
             </ul>
@@ -137,7 +130,7 @@ const Footer = () => {
                 style={{ border: 0 }}
                 allowFullScreen
                 loading="lazy"
-                title="ACW Location"
+                title="Alliance Location"
                 className="opacity-90 hover:opacity-100 transition-opacity duration-300"
               ></iframe>
             </div>
@@ -151,26 +144,22 @@ const Footer = () => {
         <div className="border-t border-gray-800 mt-12 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div className="text-gray-500 text-sm mb-4 md:mb-0">
-              <p>&copy; {new Date().getFullYear()} Alliance for Community Wellness. All rights reserved.</p>
+              <p>&copy; {new Date().getFullYear()} Alliance Empowering Communities. All rights reserved.</p>
             </div>
             <div className="flex items-center space-x-6">
-              <Link to="/privacy" className="text-gray-400 hover:text-teal-400 text-sm transition-colors">
+              <Link to="/privacy" className="text-gray-400 hover:text-teal-400 text-sm transition-smooth focus-ring rounded px-2 py-1">
                 Privacy Policy
               </Link>
-              <Link to="/terms" className="text-gray-400 hover:text-teal-400 text-sm transition-colors">
+              <Link to="/terms" className="text-gray-400 hover:text-teal-400 text-sm transition-smooth focus-ring rounded px-2 py-1">
                 Terms of Service
               </Link>
-              <Link to="/sitemap" className="text-gray-400 hover:text-teal-400 text-sm transition-colors">
+              <Link to="/sitemap" className="text-gray-400 hover:text-teal-400 text-sm transition-smooth focus-ring rounded px-2 py-1">
                 Sitemap
               </Link>
             </div>
           </div>
-          
-          <div className="text-center mt-6">
-            <p className="text-gray-600 text-xs">
-              Registered Non-Profit Organization in Kenya • PBO No: 0000000
-            </p>
-          </div>
+
+
         </div>
       </div>
     </footer>

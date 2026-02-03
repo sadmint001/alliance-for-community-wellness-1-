@@ -1,14 +1,18 @@
 import { useEffect, useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
+import { usePaystackPayment } from 'react-paystack';
 import { Button } from '@/components/ui/button';
-import { CreditCard, Smartphone, Banknote, Heart, Shield, CheckCircle } from 'lucide-react';
+import { CreditCard, Smartphone, Banknote, Heart, Shield, CheckCircle, User, Mail } from 'lucide-react';
 
-const PESAPAL_BASE = import.meta.env.VITE_PESAPAL_URL || 'https://payments.pesapal.com/v3/ACW/donate';
-const PESAPAL_CALLBACK = import.meta.env.VITE_PESAPAL_CALLBACK || `${window.location.origin}/donate/success`;
+const PAYSTACK_PUBLIC_KEY = import.meta.env.VITE_PAYSTACK_PUBLIC_KEY || 'pk_test_a34e17221aacc87c92a1ce7951f86498292aeb88';
 
 export default function Donate() {
   const [amount, setAmount] = useState<number>(1000);
-  const [method, setMethod] = useState<'mpesa' | 'card' | 'bank'>('mpesa');
+  const [email, setEmail] = useState('');
+  const [name, setName] = useState('');
+  const [method, setMethod] = useState<'mpesa' | 'card' | 'bank'>('card');
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     document.title = 'Donate - ACW';
@@ -21,18 +25,41 @@ export default function Donate() {
     return Math.round(value);
   };
 
-  const handleMpesaDonation = async () => {
-    setLoading(true);
-    const safe = sanitizeAmount(amount);
-    const cb = encodeURIComponent(PESAPAL_CALLBACK);
-    window.location.href = `${PESAPAL_BASE}?amount=${safe}&method=mpesa&callback=${cb}`;
+  const config = {
+    reference: (new Date()).getTime().toString(),
+    email: email || 'donor@example.com',
+    amount: sanitizeAmount(amount) * 100, // Paystack amount is in kobo/cents
+    publicKey: PAYSTACK_PUBLIC_KEY,
+    currency: "KES",
+    metadata: {
+      custom_fields: [
+        {
+          display_name: "Donor Name",
+          variable_name: "donor_name",
+          value: name
+        }
+      ]
+    }
   };
 
-  const handleCardDonation = async () => {
+  const initializePayment = usePaystackPayment(config);
+
+  const onSuccess = (reference: any) => {
+    setLoading(false);
+    navigate(`/donate/success?amount=${amount}&reference=${reference.reference}&status=success`);
+  };
+
+  const onClose = () => {
+    setLoading(false);
+  };
+
+  const handleDonation = () => {
+    if (!email) {
+      alert("Please enter your email to proceed");
+      return;
+    }
     setLoading(true);
-    const safe = sanitizeAmount(amount);
-    const cb = encodeURIComponent(PESAPAL_CALLBACK);
-    window.location.href = `${PESAPAL_BASE}?amount=${safe}&method=card&callback=${cb}`;
+    initializePayment(onSuccess, onClose);
   };
 
   return (
@@ -44,13 +71,13 @@ export default function Donate() {
             <Heart className="h-3 w-3 text-rose-300" />
             <span className="text-xs font-medium text-rose-200">Support Community Wellness</span>
           </div>
-          
+
           <h1 className="mb-4 text-3xl font-bold tracking-tight md:text-4xl">
             <span className="bg-gradient-to-r from-white via-teal-100 to-amber-100 bg-clip-text text-transparent">
               Make a Donation
             </span>
           </h1>
-          
+
           <p className="mx-auto max-w-xl text-base text-gray-300">
             Your contribution directly supports community health initiatives
           </p>
@@ -71,27 +98,55 @@ export default function Donate() {
                       <button
                         key={amt}
                         onClick={() => setAmount(amt)}
-                        className={`py-3 rounded-lg border-2 font-medium transition-all ${
-                          amount === amt
-                            ? 'border-teal-500 bg-teal-50 text-teal-700 scale-105'
-                            : 'border-slate-200 text-slate-700 hover:border-teal-300 hover:bg-slate-50'
-                        }`}
+                        className={`py-3 rounded-lg border-2 font-medium transition-all ${amount === amt
+                          ? 'border-teal-500 bg-teal-50 text-teal-700 scale-105'
+                          : 'border-slate-200 text-slate-700 hover:border-teal-300 hover:bg-slate-50'
+                          }`}
                       >
                         {amt.toLocaleString()}
                       </button>
                     ))}
                   </div>
 
+                  {/* Donor Info */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                    <div>
+                      <label className="block text-sm font-medium text-slate-700 mb-2 flex items-center gap-2">
+                        <User className="h-4 w-4 text-teal-600" /> Full Name
+                      </label>
+                      <input
+                        type="text"
+                        placeholder="John Doe"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        className="w-full px-4 py-2.5 border-2 border-slate-200 rounded-lg focus:border-teal-500 focus:ring-1 focus:ring-teal-300 transition-all"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-slate-700 mb-2 flex items-center gap-2">
+                        <Mail className="h-4 w-4 text-teal-600" /> Email Address *
+                      </label>
+                      <input
+                        type="email"
+                        placeholder="john@example.com"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        className="w-full px-4 py-2.5 border-2 border-slate-200 rounded-lg focus:border-teal-500 focus:ring-1 focus:ring-teal-300 transition-all"
+                        required
+                      />
+                    </div>
+                  </div>
+
                   {/* Custom Amount */}
                   <div className="mb-6">
                     <label className="block text-sm font-medium text-slate-700 mb-2">Custom Amount</label>
                     <div className="relative">
-                      <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-600">KES</span>
+                      <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-500 font-semibold">KES</span>
                       <input
                         type="number"
                         value={amount}
                         onChange={(e) => setAmount(sanitizeAmount(Number(e.target.value)))}
-                        className="w-full pl-14 pr-4 py-3 text-lg font-medium border-2 border-slate-200 rounded-lg focus:border-teal-500 focus:ring-1 focus:ring-teal-300"
+                        className="w-full pl-16 pr-4 py-3 text-lg font-bold border-2 border-slate-200 rounded-xl focus:border-teal-500 focus:ring-4 focus:ring-teal-500/10 transition-all"
                         min={100}
                       />
                     </div>
@@ -104,15 +159,13 @@ export default function Donate() {
                     <div className="grid gap-3">
                       <button
                         onClick={() => setMethod('mpesa')}
-                        className={`flex items-center gap-3 p-4 rounded-lg border-2 transition-all ${
-                          method === 'mpesa'
-                            ? 'border-green-500 bg-green-50'
-                            : 'border-slate-200 hover:border-slate-300'
-                        }`}
+                        className={`flex items-center gap-3 p-4 rounded-lg border-2 transition-all ${method === 'mpesa'
+                          ? 'border-green-500 bg-green-50'
+                          : 'border-slate-200 hover:border-slate-300'
+                          }`}
                       >
-                        <div className={`h-10 w-10 rounded-lg flex items-center justify-center ${
-                          method === 'mpesa' ? 'bg-green-100 text-green-600' : 'bg-slate-100 text-slate-600'
-                        }`}>
+                        <div className={`h-10 w-10 rounded-lg flex items-center justify-center ${method === 'mpesa' ? 'bg-green-100 text-green-600' : 'bg-slate-100 text-slate-600'
+                          }`}>
                           <Smartphone className="h-5 w-5" />
                         </div>
                         <div className="flex-1 text-left">
@@ -124,15 +177,13 @@ export default function Donate() {
 
                       <button
                         onClick={() => setMethod('card')}
-                        className={`flex items-center gap-3 p-4 rounded-lg border-2 transition-all ${
-                          method === 'card'
-                            ? 'border-blue-500 bg-blue-50'
-                            : 'border-slate-200 hover:border-slate-300'
-                        }`}
+                        className={`flex items-center gap-3 p-4 rounded-lg border-2 transition-all ${method === 'card'
+                          ? 'border-blue-500 bg-blue-50'
+                          : 'border-slate-200 hover:border-slate-300'
+                          }`}
                       >
-                        <div className={`h-10 w-10 rounded-lg flex items-center justify-center ${
-                          method === 'card' ? 'bg-blue-100 text-blue-600' : 'bg-slate-100 text-slate-600'
-                        }`}>
+                        <div className={`h-10 w-10 rounded-lg flex items-center justify-center ${method === 'card' ? 'bg-blue-100 text-blue-600' : 'bg-slate-100 text-slate-600'
+                          }`}>
                           <CreditCard className="h-5 w-5" />
                         </div>
                         <div className="flex-1 text-left">
@@ -144,15 +195,13 @@ export default function Donate() {
 
                       <button
                         onClick={() => setMethod('bank')}
-                        className={`flex items-center gap-3 p-4 rounded-lg border-2 transition-all ${
-                          method === 'bank'
-                            ? 'border-purple-500 bg-purple-50'
-                            : 'border-slate-200 hover:border-slate-300'
-                        }`}
+                        className={`flex items-center gap-3 p-4 rounded-lg border-2 transition-all ${method === 'bank'
+                          ? 'border-purple-500 bg-purple-50'
+                          : 'border-slate-200 hover:border-slate-300'
+                          }`}
                       >
-                        <div className={`h-10 w-10 rounded-lg flex items-center justify-center ${
-                          method === 'bank' ? 'bg-purple-100 text-purple-600' : 'bg-slate-100 text-slate-600'
-                        }`}>
+                        <div className={`h-10 w-10 rounded-lg flex items-center justify-center ${method === 'bank' ? 'bg-purple-100 text-purple-600' : 'bg-slate-100 text-slate-600'
+                          }`}>
                           <Banknote className="h-5 w-5" />
                         </div>
                         <div className="flex-1 text-left">
@@ -184,13 +233,13 @@ export default function Donate() {
               <div className="sticky top-6">
                 <div className="relative rounded-xl bg-gradient-to-b from-slate-800 to-slate-900 p-6 shadow-xl text-white">
                   <h3 className="text-lg font-bold mb-4">Donation Summary</h3>
-                  
+
                   <div className="space-y-4 mb-6">
                     <div className="flex justify-between items-center pb-3 border-b border-white/10">
                       <span className="text-slate-300">Donation</span>
                       <span className="font-bold">KES {sanitizeAmount(amount).toLocaleString()}</span>
                     </div>
-                    
+
                     <div className="flex justify-between items-center text-sm">
                       <span className="text-slate-400">Transaction Fee</span>
                       <span className="text-slate-300">KES {(sanitizeAmount(amount) * 0.015).toFixed(0)}</span>
@@ -212,36 +261,19 @@ export default function Donate() {
                   </div>
 
                   {/* Action Buttons */}
-                  {method === 'mpesa' && (
+                  {(method === 'mpesa' || method === 'card') && (
                     <button
-                      onClick={handleMpesaDonation}
+                      onClick={handleDonation}
                       disabled={loading}
-                      className="w-full py-3 bg-gradient-to-r from-green-500 to-emerald-600 text-white font-bold rounded-lg hover:shadow-lg transition-all disabled:opacity-50"
+                      className="w-full py-4 bg-gradient-to-r from-teal-600 to-emerald-600 text-white font-bold rounded-xl shadow-soft-xl hover:shadow-soft-2xl hover-lift transition-all disabled:opacity-50 text-lg"
                     >
                       {loading ? (
                         <span className="flex items-center justify-center gap-2">
-                          <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent"></div>
-                          Processing...
+                          <div className="h-5 w-5 animate-spin rounded-full border-2 border-white border-t-transparent"></div>
+                          Initalizing Paystack...
                         </span>
                       ) : (
-                        'Donate with M-Pesa'
-                      )}
-                    </button>
-                  )}
-
-                  {method === 'card' && (
-                    <button
-                      onClick={handleCardDonation}
-                      disabled={loading}
-                      className="w-full py-3 bg-gradient-to-r from-blue-500 to-cyan-600 text-white font-bold rounded-lg hover:shadow-lg transition-all disabled:opacity-50"
-                    >
-                      {loading ? (
-                        <span className="flex items-center justify-center gap-2">
-                          <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent"></div>
-                          Processing...
-                        </span>
-                      ) : (
-                        'Donate with Card'
+                        `Donate KES ${amount.toLocaleString()}`
                       )}
                     </button>
                   )}
@@ -249,22 +281,26 @@ export default function Donate() {
                   {method === 'bank' && (
                     <div className="space-y-4">
                       <div className="bg-white/10 rounded-lg p-4 text-sm">
-                        <div className="font-medium mb-2">Bank Details:</div>
-                        <div className="space-y-1 text-slate-300">
-                          <div>Equity Bank</div>
-                          <div>Acc: 1234567890</div>
-                          <div>Alliance for Community Wellness</div>
-                          <div className="pt-2 text-amber-300 font-medium">Ref: ACW-DONATION</div>
+                        <div className="font-medium mb-2">Bank Transfer</div>
+                        <div className="space-y-2 text-slate-300">
+                          <p>For bank transfer details, please contact us at:</p>
+                          <div className="bg-white/5 rounded p-2">
+                            <div>Email: info@a-cw.org</div>
+                            <div>Phone: 0718271543</div>
+                          </div>
+                          <p className="text-xs text-amber-300 pt-2">We'll provide you with our bank account information securely.</p>
                         </div>
                       </div>
-                      <button className="w-full py-3 bg-gradient-to-r from-purple-500 to-violet-600 text-white font-bold rounded-lg hover:shadow-lg transition-all">
-                        Confirm Transfer
-                      </button>
+                      <Link to="/contact">
+                        <button className="w-full py-3 bg-gradient-to-r from-purple-500 to-violet-600 text-white font-bold rounded-lg hover:shadow-lg transition-all">
+                          Contact Us
+                        </button>
+                      </Link>
                     </div>
                   )}
 
                   <div className="mt-4 pt-4 border-t border-white/10 text-center">
-                    <p className="text-xs text-slate-400">Powered by Pesapal • SSL Secured</p>
+                    <p className="text-xs text-slate-400">Secured with Paystack • PCI-DSS Compliant</p>
                   </div>
                 </div>
 
@@ -275,7 +311,7 @@ export default function Donate() {
                     <span className="text-sm font-medium">Your Impact</span>
                   </div>
                   <p className="text-xs text-slate-600">
-                    KES {amount} can provide health supplies for {Math.floor(amount/100)} people
+                    KES {amount} can provide health supplies for {Math.floor(amount / 100)} people
                   </p>
                 </div>
               </div>

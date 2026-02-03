@@ -14,8 +14,9 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ['"Open Sans"', 'sans-serif'],
-        heading: ['"Montserrat"', 'sans-serif'],
+        sans: ['"Raleway"', '"Open Sans"', 'sans-serif'],
+        heading: ['"Lora"', '"Montserrat"', 'serif'],
+        serif: ['"Lora"', 'serif'],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -68,6 +69,22 @@ export default {
         },
         slate: {
           900: "hsl(var(--slate-900))",
+        },
+        sage: {
+          50: "hsl(var(--sage-50))",
+          100: "hsl(var(--sage-100))",
+          500: "hsl(var(--sage-500))",
+          600: "hsl(var(--sage-600))",
+        },
+        pink: {
+          50: "hsl(var(--pink-50))",
+          100: "hsl(var(--pink-100))",
+          500: "hsl(var(--pink-500))",
+        },
+        cream: {
+          50: "hsl(var(--cream-50))",
+          100: "hsl(var(--cream-100))",
+          200: "hsl(var(--cream-200))",
         },
       },
       borderRadius: {
