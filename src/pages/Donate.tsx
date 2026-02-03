@@ -55,7 +55,11 @@ export default function Donate() {
 
   const handleDonation = () => {
     if (!email) {
-      alert("Please enter your email to proceed");
+      toast({
+        title: "Required Information",
+        description: "Please enter your email to proceed with the donation.",
+        variant: "destructive"
+      });
       return;
     }
     setLoading(true);
@@ -251,6 +255,12 @@ export default function Donate() {
                     </div>
 
                     <div className="border-t border-white/10 pt-4">
+                      {amount && !isNaN(Number(amount)) && (
+                        <div className="flex justify-between border-b pb-2">
+                          <strong>Amount:</strong>
+                          <span className="text-teal-600 font-bold">Ksh {Number(amount).toLocaleString()}</span>
+                        </div>
+                      )}
                       <div className="flex justify-between items-center">
                         <span className="text-slate-300">Total</span>
                         <span className="text-2xl font-bold text-amber-300">

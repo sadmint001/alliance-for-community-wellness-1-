@@ -22,7 +22,12 @@ export default function DonateSuccess() {
         <p className="text-gray-600 mb-6">We appreciate your donation — it helps us continue our work in the community.</p>
 
         <div className="space-y-4 text-left max-w-sm mx-auto text-sm text-gray-700 mb-8 bg-slate-50 p-6 rounded-xl border border-slate-100">
-          {amount && (<div className="flex justify-between border-b pb-2"><strong>Amount:</strong> <span className="text-teal-600 font-bold">Ksh {Number(amount).toLocaleString()}</span></div>)}
+          {amount && !isNaN(Number(amount)) && (
+            <div className="flex justify-between border-b pb-2">
+              <strong>Amount:</strong>
+              <span className="text-teal-600 font-bold">Ksh {Number(amount).toLocaleString()}</span>
+            </div>
+          )}
           <div className="flex justify-between border-b pb-2"><strong>Status:</strong> <span className="text-green-600 font-bold uppercase">{status}</span></div>
           {reference && (<div className="flex justify-between"><strong>Reference:</strong> <span className="font-mono text-xs">{reference}</span></div>)}
         </div>
