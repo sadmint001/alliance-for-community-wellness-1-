@@ -3,10 +3,12 @@ import { useNavigate, Link } from 'react-router-dom';
 import { usePaystackPayment } from 'react-paystack';
 import { Button } from '@/components/ui/button';
 import { CreditCard, Smartphone, Banknote, Heart, Shield, CheckCircle, User, Mail, ArrowLeft } from 'lucide-react';
+import { useToast } from '@/hooks/use-toast';
 
 const PAYSTACK_PUBLIC_KEY = import.meta.env.VITE_PAYSTACK_PUBLIC_KEY || 'pk_test_a34e17221aacc87c92a1ce7951f86498292aeb88';
 
 export default function Donate() {
+  const { toast } = useToast();
   const [step, setStep] = useState<1 | 2>(1);
   const [amount, setAmount] = useState<number>(1000);
   const [email, setEmail] = useState('');
@@ -80,7 +82,8 @@ export default function Donate() {
     setIsProcessing(true);
 
     // Call initializePayment directly to avoid browser popup blocks
-    initializePayment(onSuccess, onClose);
+    // react-paystack initializePayment takes an object with onSuccess/onClose or handles it via config
+    initializePayment({ onSuccess, onClose });
   };
 
   return (
