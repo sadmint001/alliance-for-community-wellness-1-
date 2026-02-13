@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { z } from 'zod';
-import { useAuth } from '@/hooks/useAuth';
+import { useAuth } from '@/hooks/useAuthContext';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -50,7 +50,7 @@ const AdminLogin = () => {
     try {
       if (isSignUp) {
         const { error } = await signUp(formData.email, formData.password);
-        
+
         if (error) {
           toast({
             title: "Sign Up Failed",
@@ -67,7 +67,7 @@ const AdminLogin = () => {
         setIsSignUp(false);
       } else {
         const { error } = await signIn(formData.email, formData.password);
-        
+
         if (error) {
           toast({
             title: "Login Failed",
@@ -81,7 +81,7 @@ const AdminLogin = () => {
           title: "Welcome!",
           description: "You have been logged in successfully.",
         });
-        
+
         navigate('/admin');
       }
     } catch (error) {
@@ -172,9 +172,9 @@ const AdminLogin = () => {
             >
               {isSignUp ? 'Already have an account? Sign in' : "Don't have an account? Sign up"}
             </button>
-            
-            <Link 
-              to="/" 
+
+            <Link
+              to="/"
               className="block text-sm text-gray-500 hover:text-teal-600 transition-colors"
             >
               <ArrowLeft className="inline mr-2 h-4 w-4" />

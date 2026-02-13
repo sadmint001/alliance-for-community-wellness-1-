@@ -93,12 +93,12 @@ const Projects = () => {
           .select('*')
           .eq('status', 'active')
           .order('created_at', { ascending: true });
-        
+
         if (error) {
           console.error('Supabase error:', error);
           throw error;
         }
-        
+
         console.log('Projects fetched successfully:', data?.length || 0);
         return data as Project[];
       } catch (err) {
@@ -138,7 +138,7 @@ const Projects = () => {
 
         <h1 className="text-4xl md:text-5xl font-heading font-bold text-white mb-6 relative z-10">Our Projects</h1>
         <p className="text-xl text-gray-300 relative z-10">Current and ongoing initiatives transforming lives in Western Kenya and beyond.</p>
-        
+
         {/* Network/Error Status Banner */}
         {!isOnline && (
           <div className="mt-8 mx-auto max-w-md bg-amber-900/50 backdrop-blur-sm border border-amber-700 rounded-lg p-4 relative z-10">
@@ -148,7 +148,7 @@ const Projects = () => {
             </div>
           </div>
         )}
-        
+
         {error && isOnline && (
           <div className="mt-8 mx-auto max-w-md bg-red-900/50 backdrop-blur-sm border border-red-700 rounded-lg p-4 relative z-10">
             <div className="flex flex-col items-center space-y-2">
@@ -156,9 +156,9 @@ const Projects = () => {
                 <AlertCircle className="h-5 w-5 text-red-300" />
                 <p className="text-red-200 text-sm">Connection issue. Showing demo projects.</p>
               </div>
-              <Button 
-                variant="outline" 
-                size="sm" 
+              <Button
+                variant="outline"
+                size="sm"
                 onClick={handleRetry}
                 className="bg-white/10 text-white hover:bg-white/20"
               >
@@ -209,9 +209,9 @@ const Projects = () => {
                   <div className="w-full h-full flex items-center justify-center p-8">
                     <div className="text-center">
                       <div className="text-6xl mb-4">
-                        {project.category === 'Healthcare' ? '🏥' : 
-                         project.category === 'Education' ? '📚' : 
-                         project.category === 'Infrastructure' ? '💧' : '🌟'}
+                        {project.category === 'Healthcare' ? '🏥' :
+                          project.category === 'Education' ? '📚' :
+                            project.category === 'Infrastructure' ? '💧' : '🌟'}
                       </div>
                       <h3 className="text-2xl font-bold text-gray-800">{project.title}</h3>
                       <p className="text-gray-600 mt-2">{project.category} Project</p>

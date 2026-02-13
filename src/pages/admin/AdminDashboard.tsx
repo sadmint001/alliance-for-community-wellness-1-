@@ -1,11 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '@/hooks/useAuth';
+import { useAuth } from '@/hooks/useAuthContext';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
-import { 
-  Loader2, LogOut, Mail, Users, DollarSign, 
-  LayoutDashboard, ChevronRight 
+import {
+  Loader2, LogOut, Mail, Users, DollarSign,
+  LayoutDashboard, ChevronRight
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -57,7 +57,7 @@ const AdminDashboard = () => {
   const navigate = useNavigate();
   const { user, isAdmin, isLoading, signOut } = useAuth();
   const { toast } = useToast();
-  
+
   const [contacts, setContacts] = useState<ContactSubmission[]>([]);
   const [volunteers, setVolunteers] = useState<VolunteerApplication[]>([]);
   const [donations, setDonations] = useState<Donation[]>([]);
@@ -69,13 +69,7 @@ const AdminDashboard = () => {
     }
   }, [user, isAdmin, isLoading, navigate]);
 
-  useEffect(() => {
-    if (user && isAdmin) {
-      fetchData();
-    }
-  }, [user, isAdmin]);
-
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     setLoadingData(true);
     try {
       const [contactsRes, volunteersRes, donationsRes] = await Promise.all([
@@ -96,7 +90,13 @@ const AdminDashboard = () => {
     } finally {
       setLoadingData(false);
     }
-  };
+  }, [toast]);
+
+  useEffect(() => {
+    if (user && isAdmin) {
+      fetchData();
+    }
+  }, [user, isAdmin, fetchData]);
 
   const handleSignOut = async () => {
     await signOut();
@@ -335,7 +335,7 @@ const AdminDashboard = () => {
                           <TableCell>
                             <Badge variant={
                               donation.status === 'completed' ? 'default' :
-                              donation.status === 'pending' ? 'outline' : 'destructive'
+                                donation.status === 'pending' ? 'outline' : 'destructive'
                             }>
                               {donation.status}
                             </Badge>

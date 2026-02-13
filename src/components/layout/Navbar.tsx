@@ -31,28 +31,18 @@ const Navbar = () => {
 
   const isHome = location.pathname === '/';
 
-  // Transparent at top, visible when scrolled
-  const navClass = isScrolled
-    ? `fixed top-0 left-0 w-full z-50 transition-all duration-300 glass-light shadow-soft-lg`
-    : `fixed top-0 left-0 w-full z-50 transition-all duration-300 bg-transparent`;
+  // Exceptional design - consistently visible
+  const navClass = `fixed top-0 left-0 w-full z-50 transition-all duration-500 glass-light shadow-soft-xl`;
 
   const linkClass = (path: string) => {
     const isActive = location.pathname === path;
     const baseClass = "text-[14px] font-medium transition-smooth px-4 py-2.5 rounded-lg";
 
-    if (isScrolled) {
-      // Scrolled state - dark text
-      if (isActive) {
-        return `${baseClass} text-teal-700 font-semibold bg-teal-50`;
-      }
-      return `${baseClass} text-gray-700 hover:text-teal-700 hover:bg-teal-50/50`;
-    } else {
-      // Top of page - white text
-      if (isActive) {
-        return `${baseClass} text-white font-semibold bg-white/20`;
-      }
-      return `${baseClass} text-white hover:text-white hover:bg-white/10`;
+    // Scrolled state - dark text
+    if (isActive) {
+      return `${baseClass} text-teal-700 font-semibold bg-teal-50`;
     }
+    return `${baseClass} text-gray-700 hover:text-teal-700 hover:bg-teal-50/50`;
   };
 
   const utilityLinkClass = (path: string) => {
@@ -83,20 +73,18 @@ const Navbar = () => {
       {/* Main Navigation Bar - HUGE LOGO */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 transition-all duration-300">
         <div className={`flex items-center justify-between transition-all duration-300 ${isScrolled ? 'h-20' : 'h-24'}`}>
-          {/* Logo - Structurally in the same place, but allowed to overflow */}
+          {/* Logo - Premium Shelf Design - Static */}
           <Link
             to="/"
             onClick={handleLogoClick}
-            className="group relative flex items-center flex-shrink-0 focus-ring rounded-lg z-50 transition-all duration-300"
-            style={{ width: '220px', height: '100%' }}
+            className="group relative flex items-center flex-shrink-0 focus-ring rounded-2xl z-50 transition-all duration-500 logo-shelf scale-90 -translate-y-1"
+            style={{ width: '240px' }}
           >
             <img
               src={NewLogo}
               alt="Alliance for Community Wellness"
-              className={`absolute left-0 top-1/2 -translate-y-1/2 w-auto object-contain transition-all duration-500 transform group-hover:scale-105 ${isScrolled ? 'drop-shadow-sm' : 'drop-shadow-2xl'
-                }`}
+              className="w-auto object-contain transition-all duration-700 transform group-hover:scale-105 h-[80px] lg:h-[100px]"
               style={{
-                height: isScrolled ? '75px' : '150px',
                 maxWidth: 'none',
               }}
             />
@@ -119,26 +107,21 @@ const Navbar = () => {
             <Link to="/donate">
               <Button
                 size="lg"
-                className={`transition-all duration-500 font-bold px-8 shadow-soft hover:shadow-soft-xl hover-lift border-0 ${isScrolled
-                  ? 'bg-gradient-to-r from-teal-600 via-teal-500 to-amber-500 text-white'
-                  : 'bg-white text-teal-900 hover:bg-teal-50 shadow-soft-xl'
-                  }`}
+                className="transition-all duration-500 font-bold px-8 shadow-soft-xl hover:shadow-2xl hover-lift border-0 rounded-full bg-gradient-to-r from-teal-700 via-teal-600 to-amber-600 text-white"
               >
-                <Heart className={`h-4 w-4 mr-2 ${isScrolled ? 'text-white' : 'text-amber-500'}`} fill="currentColor" />
-                Donate Now
+                <Heart className="h-4.5 w-4.5 mr-2 text-white" fill="currentColor" />
+                <span className="tracking-tight">Donate Now</span>
               </Button>
             </Link>
           </div>
 
-          {/* Mobile menu button and donate icon */}
           <div className="flex items-center lg:hidden space-x-4">
             <Link to="/donate" className="lg:hidden focus-ring rounded-full">
-              <Heart className={`h-6 w-6 transition-smooth hover:scale-110 ${isScrolled ? 'text-rose-500' : 'text-white'}`} />
+              <Heart className="h-6 w-6 transition-smooth hover:scale-110 text-rose-500" />
             </Link>
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className={`inline-flex items-center justify-center p-2.5 rounded-md focus-ring transition-smooth ${isScrolled ? 'text-gray-800 hover:bg-gray-100' : 'text-white hover:bg-white/10'
-                }`}
+              className="inline-flex items-center justify-center p-2.5 rounded-md focus-ring transition-smooth text-gray-800 hover:bg-gray-100"
               aria-label="Toggle menu"
             >
               <span className="sr-only">Open main menu</span>
@@ -152,12 +135,13 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Mobile Navigation Menu */}
+      {/* Mobile Navigation Menu - Enhanced Glassmorphism */}
       <div
-        className={`lg:hidden absolute top-full left-0 w-full bg-white shadow-xl transition-all duration-300 ease-in-out transform ${isOpen
+        className={`lg:hidden absolute top-full left-0 w-full glass-light shadow-soft-xl transition-all duration-500 ease-in-out transform ${isOpen
           ? 'opacity-100 translate-y-0'
-          : 'opacity-0 -translate-y-4 pointer-events-none'
+          : 'opacity-0 -translate-y-10 pointer-events-none'
           }`}
+        style={{ borderBottomLeftRadius: '2rem', borderBottomRightRadius: '2rem' }}
       >
         <div className="px-4 pt-2 pb-6 space-y-1">
           {/* Main Navigation Items */}

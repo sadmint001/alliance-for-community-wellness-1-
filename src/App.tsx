@@ -7,19 +7,26 @@ import { useEffect } from "react";
 import { AuthProvider } from "@/hooks/useAuth";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
-import Home from "./pages/Home";
-import About from "./pages/About";
-import Founders from "./pages/Founders";
-import Programs from "./pages/Programs";
-import Projects from "./pages/Projects";
-import GetInvolved from "./pages/GetInvolved";
-import Donate from "./pages/Donate";
-import Contact from "./pages/Contact";
-import DonateSuccess from "./pages/DonateSuccess";
-import Careers from "./pages/Careers";
-import NotFound from "./pages/NotFound";
-import AdminLogin from "./pages/admin/AdminLogin";
-import AdminDashboard from "./pages/admin/AdminDashboard";
+import { lazy, Suspense } from "react";
+const Home = lazy(() => import("./pages/Home"));
+const About = lazy(() => import("./pages/About"));
+const Founders = lazy(() => import("./pages/Founders"));
+const Programs = lazy(() => import("./pages/Programs"));
+const Projects = lazy(() => import("./pages/Projects"));
+const GetInvolved = lazy(() => import("./pages/GetInvolved"));
+const Donate = lazy(() => import("./pages/Donate"));
+const Contact = lazy(() => import("./pages/Contact"));
+const DonateSuccess = lazy(() => import("./pages/DonateSuccess"));
+const Careers = lazy(() => import("./pages/Careers"));
+const NotFound = lazy(() => import("./pages/NotFound"));
+const AdminLogin = lazy(() => import("./pages/admin/AdminLogin"));
+const AdminDashboard = lazy(() => import("./pages/admin/AdminDashboard"));
+
+const PageLoader = () => (
+  <div className="min-h-screen flex items-center justify-center bg-white">
+    <div className="h-10 w-10 animate-spin rounded-full border-4 border-teal-600 border-t-transparent"></div>
+  </div>
+);
 
 const queryClient = new QueryClient();
 
@@ -40,19 +47,21 @@ const PublicLayout = () => {
       <div className="font-sans antialiased text-gray-800 bg-white flex flex-col min-h-screen">
         <Navbar />
         <main className="flex-grow">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/founders" element={<Founders />} />
-            <Route path="/programs" element={<Programs />} />
-            <Route path="/projects" element={<Projects />} />
-            <Route path="/get-involved" element={<GetInvolved />} />
-            <Route path="/donate" element={<Donate />} />
-            <Route path="/donate/success" element={<DonateSuccess />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/careers" element={<Careers />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
+          <Suspense fallback={<PageLoader />}>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/founders" element={<Founders />} />
+              <Route path="/programs" element={<Programs />} />
+              <Route path="/projects" element={<Projects />} />
+              <Route path="/get-involved" element={<GetInvolved />} />
+              <Route path="/donate" element={<Donate />} />
+              <Route path="/donate/success" element={<DonateSuccess />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/careers" element={<Careers />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </Suspense>
         </main>
         <Footer />
       </div>
@@ -63,10 +72,12 @@ const PublicLayout = () => {
 // Admin routes without public navbar/footer
 const AdminRoutes = () => {
   return (
-    <Routes>
-      <Route path="/admin/login" element={<AdminLogin />} />
-      <Route path="/admin" element={<AdminDashboard />} />
-    </Routes>
+    <Suspense fallback={<PageLoader />}>
+      <Routes>
+        <Route path="/admin/login" element={<AdminLogin />} />
+        <Route path="/admin" element={<AdminDashboard />} />
+      </Routes>
+    </Suspense>
   );
 };
 

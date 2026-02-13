@@ -49,11 +49,19 @@ export default function Donate() {
 
   const initializePayment = usePaystackPayment(config);
 
-  const onSuccess = (reference: any) => {
+  interface PaystackResponse {
+    reference: string;
+    trxref?: string;
+    status: string;
+    message: string;
+    transaction: string;
+  }
+
+  const onSuccess = (reference: PaystackResponse) => {
     setLoading(false);
     setIsProcessing(false);
     // Use window.location.origin to ensure absolute URL if needed, but navigate is fine for SPA
-    const ref = reference.reference || reference.trxref || reference;
+    const ref = reference.reference || reference.trxref;
     navigate(`/donate/success?amount=${amount}&reference=${ref}&status=success`);
   };
 
