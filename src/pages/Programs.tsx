@@ -10,7 +10,7 @@ const Programs = () => {
 
   return (
     <div className="pt-0">
-      <div className="bg-teal-900 pt-32 pb-20 text-center relative overflow-hidden">
+      <div className="bg-teal-900 pt-16 pb-20 text-center relative overflow-hidden">
         <h1 className="text-4xl md:text-5xl font-heading font-bold text-white mb-6 relative z-10">Our Programs</h1>
         <p className="text-xl text-teal-100 max-w-2xl mx-auto px-4 relative z-10">
           Holistic, community-driven interventions targeting the most vulnerable members of our society.

@@ -107,7 +107,7 @@ const GetInvolved = () => {
   };
 
   return (
-    <div className="pt-20 bg-gray-50 min-h-screen">
+    <div className="bg-gray-50 min-h-screen">
 
       {/* Header */}
       <div className="bg-teal-700 py-20 text-center text-white">

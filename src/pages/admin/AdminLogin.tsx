@@ -22,12 +22,20 @@ const AdminLogin = () => {
   const [formData, setFormData] = useState({ email: '', password: '' });
   const [errors, setErrors] = useState<Record<string, string>>({});
 
-  // Redirect if already logged in as admin
+  // Handle redirect and permission feedback
   useEffect(() => {
-    if (!isLoading && user && isAdmin) {
-      navigate('/admin');
+    if (!isLoading && user) {
+      if (isAdmin) {
+        navigate('/admin');
+      } else if (!isSignUp) {
+        toast({
+          title: "Access Denied",
+          description: "Your account does not have admin privileges. Please contact the system administrator.",
+          variant: "destructive"
+        });
+      }
     }
-  }, [user, isAdmin, isLoading, navigate]);
+  }, [user, isAdmin, isLoading, navigate, toast, isSignUp]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

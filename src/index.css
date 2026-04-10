@@ -70,6 +70,13 @@
     --glass-white: 0 0% 100%;
     --glass-opacity: 0.1;
     --glass-blur: 10px;
+
+    /* Global Leadership Design Colors */
+    --glide-blue: 200 100% 28%; /* #005b8a - Primary Nav */
+    --glide-gold: 48 35% 53%;   /* #b2a15c - Accents/Buttons */
+    --glide-teal: 180 100% 25%; /* #008080 - Sidebar bg */
+    --glide-gray: 0 0% 96%;     /* #f5f5f5 - Utility bar */
+    --glide-text-blue: 200 40% 30%;
   }
 
   .dark {
@@ -170,7 +177,12 @@
   /* Logo Shelf for high visibility */
   .logo-shelf {
     @apply bg-white/95 backdrop-blur-md border border-white/20 shadow-soft-lg rounded-2xl;
-    padding: 0.75rem 1.5rem;
+    padding: 0.5rem 1rem;
+
+    @screen md {
+      padding: 0.75rem 1.5rem;
+    }
+
     transition: all 500ms cubic-bezier(0.4, 0, 0.2, 1);
   }
 

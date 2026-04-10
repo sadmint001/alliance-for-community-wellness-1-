@@ -97,7 +97,7 @@ const Contact = () => {
 
   return (
     <div className="pt-0">
-      <div className="bg-gray-900 text-white pt-32 pb-20 text-center">
+      <div className="bg-gray-900 text-white pt-16 pb-20 text-center">
         <h1 className="text-4xl font-heading font-bold mb-4">Get in Touch</h1>
         <p className="text-gray-400 max-w-xl mx-auto">Have questions about our programs or want to get involved? We'd love to hear from you.</p>
       </div>

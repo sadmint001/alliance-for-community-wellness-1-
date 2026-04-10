@@ -4,7 +4,7 @@ const About = () => {
   return (
     <div className="pt-0">
       {/* Header */}
-      <div className="relative overflow-hidden bg-gradient-to-br from-slate-900 via-teal-900 to-slate-900 pt-32 pb-20 text-white">
+      <div className="relative overflow-hidden bg-gradient-to-br from-slate-900 via-teal-900 to-slate-900 pt-16 pb-20 text-white">
         <div className="absolute inset-0 opacity-20">
           <img
             src="https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&w=1920&q=80"

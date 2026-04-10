@@ -123,7 +123,7 @@ const Projects = () => {
 
   if (isLoading && isOnline) {
     return (
-      <div className="pt-32 min-h-screen flex flex-col items-center justify-center">
+      <div className="pt-16 min-h-screen flex flex-col items-center justify-center">
         <Loader2 className="h-12 w-12 animate-spin text-teal-600 mb-4" />
         <p className="text-gray-600">Loading projects...</p>
       </div>
@@ -132,7 +132,7 @@ const Projects = () => {
 
   return (
     <div className="pt-0">
-      <div className="bg-gradient-to-b from-teal-900 to-gray-900 pt-32 pb-20 text-center relative overflow-hidden">
+      <div className="bg-gradient-to-b from-teal-900 to-gray-900 pt-16 pb-20 text-center relative overflow-hidden">
         <div className="absolute top-0 right-0 w-64 h-64 bg-teal-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob"></div>
         <div className="absolute bottom-0 left-0 w-64 h-64 bg-amber-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
 

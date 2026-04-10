@@ -6,7 +6,7 @@ const Careers = () => {
     return (
         <div className="min-h-screen bg-gradient-to-b from-white via-gray-50/30 to-slate-50">
             {/* Hero Section */}
-            <div className="relative overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-teal-900 pt-32 pb-24 text-center text-white">
+            <div className="relative overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-teal-900 pt-16 pb-24 text-center text-white">
                 <div className="relative z-10 mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
                     <div className="mb-6 inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 backdrop-blur-sm">
                         <Briefcase className="h-4 w-4 text-teal-300" />
